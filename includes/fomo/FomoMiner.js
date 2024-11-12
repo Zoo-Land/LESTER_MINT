@@ -400,7 +400,7 @@ export default class FomoMiner {
 }
     busIsOk(bus) {
         let threshold = Number(bus.fields.last_mint_time);
-        let buffer = 5;
+        let buffer = 10;
         let resetTimeOk = Date.now() > threshold + buffer;
         return resetTimeOk;
     }
