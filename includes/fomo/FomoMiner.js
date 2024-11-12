@@ -425,7 +425,7 @@ export default class FomoMiner {
         suiMasterParams.privateKey = this._key;
         const suiMaster = new SuiMaster(suiMasterParams);
         await suiMaster.initialize();
-        const processCount =  1;
+        const processCount =  10;
     //const processCount = Math.floor(txs.length / 10) * 10;
     for (let i = 0; i < processCount; i++) {
         let args = [
