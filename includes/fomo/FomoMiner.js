@@ -147,14 +147,13 @@ export default class FomoMiner {
             });
         if (miner) {
            if(this._miners.length >= 1){
-                console.log(this._suiMaster.address,'NAILONG | 当前子objectID数:',this._miners.length);
 			   return miner;
 		   }
         }
         const tx = new suidouble.Transaction();
         const moveCallResults = [];
-        console.log(this._suiMaster.address,'NAILONG | 需要注册子objectID 当前ID数:',this._miners.length);
-        const regnum = 10 - this._miners.length;
+        console.log(this._suiMaster.address,'NAILONG | 需要注册');
+        const regnum = 1 - this._miners.length;
         for (let i = 0; i < regnum; i++) {
             const moveCallResult = tx.moveCall({
             target: `${this._packageId}::coin::create_timestore`,  
@@ -169,7 +168,7 @@ export default class FomoMiner {
             showEffects: true,  
         },
         });
-        console.log('NAILONG | 子ID注册成功');
+        console.log('NAILONG | 注册成功');
         //await this._movePackage.modules.miner.moveCall('register', []);
         await new Promise((res)=>{ setTimeout(res, 3000); });
         return await this.getOrCreateMiner();
