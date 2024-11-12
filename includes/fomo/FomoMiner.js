@@ -398,10 +398,15 @@ export default class FomoMiner {
     }
     return true;
 }
-    busIsOk(bus) {
+ busIsOk(bus) {
         let threshold = Number(bus.fields.last_mint_time);
+        
         let buffer = 11;
-        let resetTimeOk = Date.now()/1000 > threshold + buffer;
+        let resetTimeOk = Date.now() > threshold + buffer;
+        if(Date.now()/1000 > threshold + buffer){
+            return true;
+        }
+        return false;
         return resetTimeOk;
     }
     async submit(txs, maxRetries = 1, retryDelay = 2000) {
