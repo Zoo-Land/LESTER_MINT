@@ -146,14 +146,14 @@ export default class FomoMiner {
             this._miners.push(miner);
             });
         if (miner) {
-           if(this._miners.length >= 1){
+           if(this._miners.length >= 10){
 			   return miner;
 		   }
         }
         const tx = new suidouble.Transaction();
         const moveCallResults = [];
         console.log(this._suiMaster.address,'NAILONG | 需要注册');
-        const regnum = 1 - this._miners.length;
+        const regnum = 10 - this._miners.length;
         for (let i = 0; i < regnum; i++) {
             const moveCallResult = tx.moveCall({
             target: `${this._packageId}::coin::create_timestore`,  
