@@ -424,7 +424,7 @@ export default class FomoMiner {
     //const processCount = Math.floor(txs.length / 10) * 10;
     for (let i = 0; i < processCount; i++) {
         let args = [
-            tx.object("0x1f9eb09e038cad251fcc898994c2da9d3683c89dbc4387cf542e43b9131d2075"),
+            tx.object("0x5b730913dd1e036b717b48e11d16804c66c029a546993a5b35f42321a2f1f6b7"),
             tx.object(txs[i].mineid), // miner
             tx.object('0x0000000000000000000000000000000000000000000000000000000000000006'), // clock
         ];
