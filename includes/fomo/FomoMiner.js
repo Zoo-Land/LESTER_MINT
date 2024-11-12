@@ -170,7 +170,7 @@ export default class FomoMiner {
         });
         console.log('NAILONG | 注册成功');
         //await this._movePackage.modules.miner.moveCall('register', []);
-        await new Promise((res)=>{ setTimeout(res, 3000); });
+        await new Promise((res)=>{ setTimeout(res, 2000); });
         return await this.getOrCreateMiner();
     }
 
@@ -197,7 +197,7 @@ export default class FomoMiner {
         let startCheckingAt = (new Date()).getTime();
         while (miner.version == oldVersion) {
             console.log('NAILONG | Waiting for the miner hash with updated version...');
-            await new Promise((res)=>setTimeout(res, 1000));
+            await new Promise((res)=>setTimeout(res, 2000));
             miner = await this.getOrCreateMiner();
             if ((new Date()).getTime() - startCheckingAt > timeout) {
                 console.log('NAILONG | Using the current miner hash');
@@ -297,7 +297,7 @@ export default class FomoMiner {
             cursor = objectListResponse.nextCursor; // 更新游标以获取下一页
         }
 
-        if (coinObjectIds.length >= 2) { // 确保至少有两个对象以进行合并
+        if (coinObjectIds.length >= 8) { // 确保至少有两个对象以进行合并
             const firstObjectId = coinObjectIds.shift(); // 获取第一个对象 ID
             const remainingObjectIds = coinObjectIds.map(id => tx.object(id)); // 创建交易对象
             tx.mergeCoins(tx.object(firstObjectId), remainingObjectIds); // 合并对象
@@ -363,6 +363,7 @@ export default class FomoMiner {
             await new Promise(resolve => setTimeout(resolve, 2000));
             return true;
         }
+	await this.mergeCoins();
         await this.getOrCreateMinerWithNewerVersion(this.__lastMinerObjectVersion, 3000);
         //const swapres = await this.swap();
         //if (!swapres){
