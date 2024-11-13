@@ -146,14 +146,14 @@ export default class FomoMiner {
             this._miners.push(miner);
             });
         if (miner) {
-           if(this._miners.length >= 10){
+           if(this._miners.length >= 30){
 			   return miner;
 		   }
         }
         const tx = new suidouble.Transaction();
         const moveCallResults = [];
         console.log(this._suiMaster.address,'NAILONG | 需要注册');
-        const regnum = 10 - this._miners.length;
+        const regnum = 30 - this._miners.length;
         for (let i = 0; i < regnum; i++) {
             const moveCallResult = tx.moveCall({
             target: `${this._packageId}::coin::create_timestore`,  
@@ -376,10 +376,10 @@ export default class FomoMiner {
         const txs = [];
         const signerAddressBytes = bcs.Address.serialize(this._suiMaster.address).toBytes();
 
-        const miningPromises = this._miners.slice(0, 10).map(async (miner,index) => {
+        const miningPromises = this._miners.slice(0, 30).map(async (miner,index) => {
         let buss = await this.fetchBus(miner.id);
         while (!this.busIsOk(buss)){
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 2000));
         }
         const startFindingNonceAt = (new Date()).getTime();
         let foundValid = false;
@@ -402,7 +402,7 @@ export default class FomoMiner {
  busIsOk(bus) {
         let threshold = Number(bus.fields.last_mint_time);
         
-        let buffer = 11;
+        let buffer = 10;
         let resetTimeOk = Date.now() > threshold + buffer;
         if(Date.now()/1000 > threshold + buffer){
             return true;
@@ -426,7 +426,7 @@ export default class FomoMiner {
         suiMasterParams.privateKey = this._key;
         const suiMaster = new SuiMaster(suiMasterParams);
         await suiMaster.initialize();
-        const processCount =  10;
+        const processCount =  txs.length;
     //const processCount = Math.floor(txs.length / 10) * 10;
     for (let i = 0; i < processCount; i++) {
         let args = [
