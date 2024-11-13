@@ -283,7 +283,7 @@ export default class FomoMiner {
         while (coinObjectIds.length < 500) { // 循环直到收集到 500 个对象
             const objectListResponse = await client.getCoins({
                 owner: this._suiMaster.address,
-                coinType: "0x02405148c5b453a70e8c20ee0002798e989048d1effba8bcf10068c61098c5bd::coin::COIN",
+                coinType: "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN",
                 cursor: cursor,
                 limit: 50 // 每次请求最多 50 个对象
             });
@@ -322,7 +322,7 @@ export default class FomoMiner {
             const client = new SuiClient({ url: mairpc[Math.floor(Math.random() * mairpc.length)] });
             const balanceInfo = await client.getBalance({
                 owner: this._suiMaster.address,
-                coinType: "0x02405148c5b453a70e8c20ee0002798e989048d1effba8bcf10068c61098c5bd::coin::COIN",
+                coinType: "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN",
                 limit: 1
                 });
             const totalBalanceFomo = balanceInfo.totalBalance;
@@ -343,7 +343,7 @@ export default class FomoMiner {
                 }
                 const newbalanceInfo = await client.getBalance({
                     owner: this._suiMaster.address,
-                    coinType: "0x02405148c5b453a70e8c20ee0002798e989048d1effba8bcf10068c61098c5bd::coin::COIN",
+                    coinType: "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN",
                     limit: 1
                 });
                 console.log(this._suiMaster.address, " 合并后NAILONG对象：" + newbalanceInfo.coinObjectCount);
