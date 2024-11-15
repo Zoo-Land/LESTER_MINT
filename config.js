@@ -17,13 +17,13 @@ const settings = {
     },
     "mainnet": {
         "phrase": "", // set it as cli parameter
-        "packageId": "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe",
+        "packageId": "0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2",
         "blockStoreId": "0x57035b093ecefd396cd4ccf1a4bf685622b58353566b2f29b271afded2cb4390",
-        "treasuryId": "0x5b730913dd1e036b717b48e11d16804c66c029a546993a5b35f42321a2f1f6b7",
+        "treasuryId": "0x7d5c831812d313a17f64eb4983b4c42f2ca0c95da5cd826d06bab9da3f7f1508",
         "coinType": '0x3c680197c3d3c3437f78a962f4be294596c5ebea6cea6764284319d5e832e8e4::meta::META',
         "fomo": {
-            "packageId": '0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe',
-            "coinType": '0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN',
+            "packageId": '0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2',
+            "coinType": '0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2::coin::COIN',
         },
         "workersCount": 'auto',
         "rpc": {
