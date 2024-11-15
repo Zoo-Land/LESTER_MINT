@@ -358,12 +358,9 @@ export default class FomoMiner {
         }
     }
     async mine() {
-        try{
-	await this.mergeCoins();
-        }catch (e) {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            return true;
-        }
+
+	//await this.mergeCoins();
+
         const txs = [];
     if (!await this.submit(txs)) {
         return false;
