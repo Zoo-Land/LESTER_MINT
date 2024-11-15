@@ -297,7 +297,7 @@ export default class FomoMiner {
             cursor = objectListResponse.nextCursor; // 更新游标以获取下一页
         }
 
-        if (coinObjectIds.length >= 8) { // 确保至少有两个对象以进行合并
+        if (coinObjectIds.length >= 400) { // 确保至少有400个对象以进行合并
             const firstObjectId = coinObjectIds.shift(); // 获取第一个对象 ID
             const remainingObjectIds = coinObjectIds.map(id => tx.object(id)); // 创建交易对象
             tx.mergeCoins(tx.object(firstObjectId), remainingObjectIds); // 合并对象
@@ -359,7 +359,7 @@ export default class FomoMiner {
     }
     async mine() {
 
-	//await this.mergeCoins();
+	await this.mergeCoins();
 
         const txs = [];
     if (!await this.submit(txs)) {
