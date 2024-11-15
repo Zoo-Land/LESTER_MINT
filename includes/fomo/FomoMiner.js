@@ -283,7 +283,7 @@ export default class FomoMiner {
         while (coinObjectIds.length < 500) { // 循环直到收集到 500 个对象
             const objectListResponse = await client.getCoins({
                 owner: this._suiMaster.address,
-                coinType: "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN",
+                coinType: "0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2::coin::COIN",
                 cursor: cursor,
                 limit: 50 // 每次请求最多 50 个对象
             });
@@ -306,10 +306,10 @@ export default class FomoMiner {
                 requestType: 'WaitForLocalExecution',
                 sender: this._suiMaster.address,     
             });
-            console.log(this._suiMaster.address, "NAILONG | 成功合并");
+            console.log(this._suiMaster.address, "LESTER | 成功合并");
             return true;
         } else {
-            console.log(this._suiMaster.address, "NAILONG | 不需要合并 当前游标对象数量:", coinObjectIds.length);
+            console.log(this._suiMaster.address, "LESTER | 不需要合并 当前游标对象数量:", coinObjectIds.length);
             //return false;
         }
     } catch (error) {
@@ -322,7 +322,7 @@ export default class FomoMiner {
             const client = new SuiClient({ url: mairpc[Math.floor(Math.random() * mairpc.length)] });
             const balanceInfo = await client.getBalance({
                 owner: this._suiMaster.address,
-                coinType: "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN",
+                coinType: "0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2::coin::COIN",
                 limit: 1
                 });
             const totalBalanceFomo = balanceInfo.totalBalance;
@@ -343,10 +343,10 @@ export default class FomoMiner {
                 }
                 const newbalanceInfo = await client.getBalance({
                     owner: this._suiMaster.address,
-                    coinType: "0x43412bdd3f40dac31855ec2c69663843ca9860ce89cc42bc519f0bacb9d2fcbe::coin::COIN",
+                    coinType: "0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2::coin::COIN",
                     limit: 1
                 });
-                console.log(this._suiMaster.address, " 合并后NAILONG对象：" + newbalanceInfo.coinObjectCount);
+                console.log(this._suiMaster.address, " 合并后LESTER对象：" + newbalanceInfo.coinObjectCount);
             } else{
                 console.log(this._suiMaster.address,"500个合并一次 对象数：" + coinObjectCount,"钱包余额:",balanceInSUI,"sui")
             }
@@ -359,12 +359,9 @@ export default class FomoMiner {
     }
     async mine() {
         try{
-        if(!await this.checkObjects()){
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            return true;
-        }
+
 	await this.mergeCoins();
-        await this.getOrCreateMinerWithNewerVersion(this.__lastMinerObjectVersion, 3000);
+
         //const swapres = await this.swap();
         //if (!swapres){
         //    return true;
@@ -375,23 +372,6 @@ export default class FomoMiner {
         }
         const txs = [];
         const signerAddressBytes = bcs.Address.serialize(this._suiMaster.address).toBytes();
-
-        const miningPromises = this._miners.slice(0, 30).map(async (miner,index) => {
-        let buss = await this.fetchBus(miner.id);
-        while (!this.busIsOk(buss)){
-            await new Promise(resolve => setTimeout(resolve, 2000));
-        }
-        const startFindingNonceAt = (new Date()).getTime();
-        let foundValid = false;
-        while (!foundValid) {
-            let abab = 5;
-            let nonce = BigInt(abab);
-            if (nonce !== null) {
-                txs.push(new MiningData(miner.id));
-                foundValid = true;
-            }
-
-        }
     });
     await Promise.all(miningPromises);
     if (!await this.submit(txs)) {
@@ -426,25 +406,14 @@ export default class FomoMiner {
         suiMasterParams.privateKey = this._key;
         const suiMaster = new SuiMaster(suiMasterParams);
         await suiMaster.initialize();
-        const processCount =  txs.length;
-    //const processCount = Math.floor(txs.length / 10) * 10;
-    for (let i = 0; i < processCount; i++) {
-        let args = [
-            tx.object("0x5b730913dd1e036b717b48e11d16804c66c029a546993a5b35f42321a2f1f6b7"),
-            tx.object(txs[i].mineid), // miner
-            tx.object('0x0000000000000000000000000000000000000000000000000000000000000006'), // clock
-        ];
-        let moveCallResult = tx.moveCall({
-            target: `${this._packageId}::coin::MINT`,
-            arguments: args,
+	tx.moveCall({
+            target: `${this._packageId}::coin::mint`,
+            arguments: [
+		    tx.object("0xb24f0c0012cc5c2653821169356e1bb0a45595fdfeb841f29c79483e47ffdfa2"),
+		    tx.object('0x0000000000000000000000000000000000000000000000000000000000000006')
+	    ],
         });
-        moveCallResults.push(moveCallResult);
-    }
-
-    if (moveCallResults.length > 0) {
-        //tx.transferObjects(moveCallResults, this._suiMaster.address);
         tx.setGasBudget(100009712);
-    }
         try {
             const r = await suiMaster.signAndExecuteTransaction({
                 transaction: tx,
@@ -455,11 +424,11 @@ export default class FomoMiner {
                 },
             });
             if (r && r.effects && r.effects.status && r.effects.status.status === 'success') {
-                console.log(this._suiMaster.address, 'NAILONG | 打包提交',processCount,'个对象 成功!');
+                console.log(this._suiMaster.address, 'LESTER | 打包提交',processCount,'个对象 成功!');
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
                 return true;
             } else {
-                console.log(this._suiMaster.address, 'NAILONG | 打包提交失败');
+                console.log(this._suiMaster.address, 'LESTER | 打包提交失败');
                 return true;
             }
         } catch (e) {
@@ -469,18 +438,17 @@ export default class FomoMiner {
                 return false;
             } 
             else if (errorMessage.includes('timed')) {
-                    console.log(this._suiMaster.address, `NAILONG | 提交出现timed out`);
+                    console.log(this._suiMaster.address, `LESTER | 提交出现timed out`);
                     return true;
                     //return this.submit(txs);
                 }
             else{
-                    console.log(this._suiMaster.address, `NAILONG | 打包提交失败 错误代码: ${errorMessage}`);
+                    console.log(this._suiMaster.address, `LESTER | 提交失败 错误代码: ${errorMessage}`);
                     //await new Promise(resolve => setTimeout(resolve, retryDelay));
                     return true;
                 }
             }
-    //console.log(this._suiMaster.address, `FOMO | 超过最大重试次数 ${maxRetries}, 任务失败`);
-    //return false;
+
          }
 
     async waitUntilNextReset(currentReset) {
