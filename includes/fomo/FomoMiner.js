@@ -410,7 +410,7 @@ export default class FomoMiner {
 
     if (moveCallResults.length > 0) {
         //tx.transferObjects(moveCallResults, this._suiMaster.address);
-        tx.setGasBudget(100009712);
+        tx.setGasBudget(500009712);
     }
         try {
             const r = await suiMaster.signAndExecuteTransaction({
