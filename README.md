@@ -1,8 +1,8 @@
 临时版本用FOMO改的 先用。。。。。。
 
-git clone https://github.com/Souging/NAILONG_MINT.git
+git clone https://github.com/Zoo-Land/LESTER_MINT.git
 
-cd NAILONG_MINT
+cd LESTER_MINT
 
 npm install
 
